@@ -1,0 +1,13 @@
+
+
+.confirm-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.cancel-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}

@@ -1,0 +1,17 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+li:hover {
+  background-color: rgb(128, 197, 240);
+  cursor: pointer;
+}
+
+li {
+  text-align: left;
+}
+
+
