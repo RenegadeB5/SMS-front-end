@@ -6,17 +6,22 @@ import API_interface from "./API";
 const CreateStudentModal = ({ open, close, link}) => {
     if (!open) return null;
 
+    // form validated
     const [validated, setValidated] = useState(false);
 
+    // show error modal
     const [showErrorModal, setShowErrorModal] = useState(false);
 
+    // error message if any
     const [errorMessage, setErrorMessage] = useState("");
 
+    // close error modal
     const closeShowErrorModal = () => {
         setShowErrorModal(false);
         close();
     }
 
+    // create student and POST to api
     const createStudent = (e) => {
         const student = {
             first_name: e.target.first_name.value,
@@ -30,6 +35,7 @@ const CreateStudentModal = ({ open, close, link}) => {
                 close();
             }
             else {
+                // show error modal
                 setErrorMessage(`(${response.CODE}) ${response.data}`)
                 setShowErrorModal(true);
             }
@@ -38,7 +44,7 @@ const CreateStudentModal = ({ open, close, link}) => {
         });
     };
 
-
+    // validate form
     const handleSubmit = (event) => {
         
         const form = event.currentTarget;
@@ -56,6 +62,7 @@ const CreateStudentModal = ({ open, close, link}) => {
 
     return (
         <>
+            {/* create student modal */}
             <ModalTemplate
                 title={"Create Student"}
                 body={
@@ -101,6 +108,7 @@ const CreateStudentModal = ({ open, close, link}) => {
                 open={open}
                 close={close}
             />
+            {/* error modal */}
             <ModalTemplate
                 open = {showErrorModal}
                 close = {closeShowErrorModal}

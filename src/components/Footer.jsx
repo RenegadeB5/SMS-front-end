@@ -1,6 +1,7 @@
 import React from "react";
 import './Footer.css';
 
+// footer
 const Footer = () => {
     return (
         <React.StrictMode>

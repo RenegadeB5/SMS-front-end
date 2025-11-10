@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import './ConfirmationModal.css';
 
+// confirm delete modal
 const ConfirmationModal = ({ open, close, confirm }) => {
 
-
+    // don't render until opened
     if (!open) return null;
 
     return (
+        // confirm delete modal
         <Modal show={open} onHide={close} centered >
             <Modal.Header closeButton>
                 <Modal.Title>Confirm Deletion</Modal.Title>

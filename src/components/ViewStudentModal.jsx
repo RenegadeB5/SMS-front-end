@@ -5,20 +5,28 @@ import ConfirmationModal from './ConfirmationModal.jsx';
 import ModalTemplate from './ModalTemplate.jsx';
 import API_interface from './API.js';
 
+// Modal for viewing student details
 function ViewStudentModal({ open, close, link, removeStudent}) {
     
+    // student being edited
     const [isEditing, setIsEditing] = useState(false);
 
+    // show confirmation modal
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+    // form validated
     const [validated, setValidated] = useState(false);
 
+    // student being viewed
     const [student, setStudent] = useState(null);
 
+    // show error modal
     const [showErrorModal, setShowErrorModal] = useState(false);
 
+    // error message
     const [errorMessage, setErrorMessage] = useState("");
 
+    // close error modal
     const closeShowErrorModal = () => {
         setShowErrorModal(false);
         setShowConfirmModal(false);
@@ -27,6 +35,7 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
         close();
     }
 
+    // fetch student by ID
     React.useEffect(() => {
         const fetchStudent = async () => {
             const response = await API_interface.GET(link);
@@ -34,6 +43,7 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
                 setStudent(response.data);
             }
             else {
+                // show error modal if error
                 setErrorMessage(`(${response.status}) ${response.data}`)
                 setShowErrorModal(true);
             }
@@ -42,6 +52,7 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
         fetchStudent();
     }, [link]);
 
+    // call put api method with student
     const editStudent = (event) => {
         const updatedStudent = {
             first_name: event.target.first_name.value,
@@ -56,13 +67,15 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
                 setIsEditing(false);
             }
             else {
+                // if error show error modal
                 setErrorMessage(`(${response.status}) ${response.data}`)
                 setShowErrorModal(true);
             }
         });
     };
        
-
+ 
+    // call delete api method with student ID
     const deleteStudent = (id) => {
         API_interface.DELETE(student._links.delete.href, id).then((response) => {
             if (response.status === 204) {
@@ -70,7 +83,8 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
                 setShowConfirmModal(false);
                 close();
             }
-            else {
+            else { 
+                // show error
                 setErrorMessage(`(${response.status}) ${response.data}`)
                 setShowErrorModal(true);
             }
@@ -78,7 +92,8 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
 
         });
     };
-
+ 
+    // check validity of form
     const handleSubmit = (event) => {
         
         const form = event.currentTarget;
@@ -88,21 +103,25 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
             event.stopPropagation();
         }
         else {
+            // edit student if form is valid
             editStudent(event);
         }
 
         setValidated(true);
         
     };
-
+ 
+    // confirm deletion button is pressed
     const confirmDelete = () => {
         console.log("Deleting student with ID:", student.id);
         deleteStudent(student.id);
     }
-
+ 
+    // if student was successfully fetched
     if(student) {
         return (
-            <>
+            <> 
+                {/* show edit view of modal */}
                 {!isEditing ? (
                     <>
                         <ModalTemplate
@@ -144,7 +163,9 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
                         <ModalTemplate />
                         
                     </>
-                ): (
+                ): 
+                // show details view of student
+                (
                     <ModalTemplate
                         open={open}
                         close={() => {setIsEditing(false); close();}}
@@ -191,6 +212,7 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
                     />
 
                 )}
+                {/* confirmation modal */}
                 <ConfirmationModal
                     open={showConfirmModal}
                     close={() => setShowConfirmModal(false)}
@@ -202,6 +224,7 @@ function ViewStudentModal({ open, close, link, removeStudent}) {
         );
         
     }
+    // error modal
     else if (showErrorModal) {
         return (
             <ModalTemplate

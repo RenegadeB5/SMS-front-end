@@ -1,8 +1,9 @@
 import axios from 'axios';
 
+// simple API interface
 class API_interface {
 
-
+    // get
     static async GET(URI) {
         try {
             const response = await axios.get(`${URI}`);
@@ -14,6 +15,7 @@ class API_interface {
         
     }
 
+    // post
     static async POST(URI, data) {
         try {
             const response = await axios.post(`${URI}`, data);
@@ -25,6 +27,7 @@ class API_interface {
         
     }
 
+    // put
     static async PUT(URI, data) {
         try {
             const response = await axios.put(`${URI}`, data);
@@ -37,6 +40,7 @@ class API_interface {
         
     }
 
+    // delete
     static async DELETE(URI) {
         try {
             const response = await axios.delete(`${URI}`);

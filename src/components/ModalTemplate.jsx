@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Modal} from 'react-bootstrap';
 
+// modal template
 const ModalTemplate = ({ title, body, footer, open, close}) => {
     if (!open) return null;
 
