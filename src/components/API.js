@@ -3,24 +3,50 @@ import axios from 'axios';
 class API_interface {
 
 
-    static GET(URI) {
-        return axios.get(`${URI}`)
-            .then(response => response.data);
+    static async GET(URI) {
+        try {
+            const response = await axios.get(`${URI}`);
+            return response;
+        }
+        catch (error) {
+            return error.response;
+        }
+        
     }
 
-    static POST(URI, data) {
-        return axios.post(`${URI}`, data)
-            .then(response => response.data);
+    static async POST(URI, data) {
+        try {
+            const response = await axios.post(`${URI}`, data);
+            return response;
+        }
+        catch (error) {
+            return error.response;
+        }
+        
     }
 
-    static PUT(URI, data) {
-        return axios.put(`${URI}`, data)
-            .then(response => response.data);
+    static async PUT(URI, data) {
+        try {
+            const response = await axios.put(`${URI}`, data);
+            return response;
+                
+        }
+        catch (error) {
+            return error.response;
+        }
+        
     }
 
-    static DELETE(URI) {
-        return axios.delete(`${URI}`)
-            .then(response => response.data);
+    static async DELETE(URI) {
+        try {
+            const response = await axios.delete(`${URI}`);
+            return response;
+                
+        }
+        catch (error) {
+            return error.response;
+        }
+        
     }
 }
 

@@ -22,9 +22,9 @@ const MainPage = () => {
     
     useEffect(() => {
         const fetchResponse = async () => {
-            const response = await API_interface.GET("http://localhost:8080/api/v1/students");
-            setResponseBody(response);
-            setStudentList(response._embedded.studentDTOList);
+            const response = await API_interface.GET("https://api.rocketmanb5.com/api/v1/students");
+            setResponseBody(response.data);
+            setStudentList(response.data._embedded.studentDTOList);
             
         };
         fetchResponse();

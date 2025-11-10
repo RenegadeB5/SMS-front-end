@@ -8,6 +8,15 @@ const CreateStudentModal = ({ open, close, link}) => {
 
     const [validated, setValidated] = useState(false);
 
+    const [showErrorModal, setShowErrorModal] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const closeShowErrorModal = () => {
+        setShowErrorModal(false);
+        close();
+    }
+
     const createStudent = (e) => {
         const student = {
             first_name: e.target.first_name.value,
@@ -16,8 +25,16 @@ const CreateStudentModal = ({ open, close, link}) => {
             DOB: e.target.DOB.value
         };
         console.log("Creating student:", student);
-        API_interface.POST(link, student).then(() => {
-            close();
+        API_interface.POST(link, student).then((response) => {
+            if (response.status === 200) {
+                close();
+            }
+            else {
+                setErrorMessage(`(${response.CODE}) ${response.data}`)
+                setShowErrorModal(true);
+            }
+
+            
         });
     };
 
@@ -26,6 +43,7 @@ const CreateStudentModal = ({ open, close, link}) => {
         
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
+            event.preventDefault();
             event.stopPropagation();
         }
         else {
@@ -37,7 +55,7 @@ const CreateStudentModal = ({ open, close, link}) => {
     };
 
     return (
-        
+        <>
             <ModalTemplate
                 title={"Create Student"}
                 body={
@@ -83,43 +101,21 @@ const CreateStudentModal = ({ open, close, link}) => {
                 open={open}
                 close={close}
             />
+            <ModalTemplate
+                open = {showErrorModal}
+                close = {closeShowErrorModal}
+                title = {"Error"}
+                body = {errorMessage}
+                footer = {
+                    <Button type = "button" variant="primary" className = 'ok-button' onClick={closeShowErrorModal}>
+                            OK
+                    </Button>
+                }
+            />
+        </>
     );
 }
 
 export default CreateStudentModal;
 
-{/*
-    <Form id = 'create-student-form' onSubmit = {action}>
-            <ModalTemplate
-                title={"Create Student"}
-                body={
-                    <>
-                        <div>
-                            <span className = 'field-descriptor'>First Name:</span> <span className = 'field-value'><input type="text" className = 'input' id = 'first_name' required /></span>
-                        </div>
-                        <div>
-                            <span className = 'field-descriptor'>Middle Name:</span> <span className = 'field-value'><input type="text" className = 'input' id = 'middle_name' /></span>
-                        </div>
-                        <div>
-                            <span className = 'field-descriptor'>Last Name:</span> <span className = 'field-value'><input type="text" className = 'input' id = 'last_name' required /></span>
-                        </div>
-                        <div>
-                            <span className = 'field-descriptor'>Date of Birth:</span> <span className = 'field-value'><input type="date" className = 'input' id = 'DOB' required /></span>
-                        </div>
-                    </>
-                }
-                footer={
-                    <>
-                        <Button type="submit" variant="primary" className = 'save-button' form = 'create-student-form'>
-                            Save
-                        </Button>
-                        <Button variant="secondary" className = 'cancel-button' onClick={close}>
-                            Cancel
-                        </Button>
-                    </>
-                }
-                open={open}
-                close={close}
-            />
-        </Form>
-        */}
+
