@@ -10,7 +10,7 @@ const MainPage = () => {
     // response from API
     const [responseBody, setResponseBody] = useState(null);
     // student list
-    const [studentList, setStudentList] = useState(null);
+    const [studentList, setStudentList] = useState([]);
     // show create student modal
     const [showCreateStudentModal, setShowCreateStudentModal] = useState(false);
     // show view student modal
@@ -34,13 +34,13 @@ const MainPage = () => {
         const fetchResponse = async () => {
             const response = await API_interface.GET("https://api.rocketmanb5.com/api/v1/students");
             setResponseBody(response.data);
-            setStudentList(response.data._embedded.studentDTOList);
+            const list = response.data._embedded?.studentDTOList || [];
+            setStudentList(list);
             
         };
         fetchResponse();
         
     }, []);
-    console.log(responseBody);
 
     // don't render until students are fetched
     if (!responseBody) return null;
